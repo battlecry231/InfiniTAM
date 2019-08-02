@@ -18,6 +18,7 @@
 #include <stdexcept>
 #include <stdlib.h>
 #include <string.h>
+#include <iostream>
 
 namespace ORUtils
 {
@@ -253,7 +254,10 @@ namespace ORUtils
 				case 1:
 #ifndef COMPILE_WITHOUT_CUDA
 					if (dataSize == 0) data_cpu = NULL;
-					else ORcudaSafeCall(cudaMallocHost((void**)&data_cpu, dataSize * sizeof(T)));
+					else {
+						
+						ORcudaSafeCall(cudaMallocHost((void**)&data_cpu, dataSize * sizeof(T)));
+					}
 #endif
 					break;
 				case 2:

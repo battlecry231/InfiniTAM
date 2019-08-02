@@ -10,6 +10,7 @@
 x64/
 /build/
 /buildx/
+/build_depRgb/*
 /freeglut/
 /install/
 /librealsense/

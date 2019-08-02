@@ -21,7 +21,7 @@ namespace ITMLib
 		MemoryDeviceType memoryType;
 
 		uint noTotalTriangles;
-		static const uint noMaxTriangles_default = SDF_LOCAL_BLOCK_NUM * 32 * 16;
+		static const uint noMaxTriangles_default = SDF_LOCAL_BLOCK_NUM * 32 * 8;//SDF_LOCAL_BLOCK_NUM * 32 * 16;
 		uint noMaxTriangles;
 
 		ORUtils::MemoryBlock<Triangle> *triangles;
@@ -31,7 +31,11 @@ namespace ITMLib
 			this->memoryType = memoryType;
 			this->noTotalTriangles = 0;
 			this->noMaxTriangles = maxTriangles;
-
+			//debug
+			size_t free_byte, total_byte;
+			cudaMemGetInfo( &free_byte, &total_byte ) ;
+			std::cout << "\nITMMesh\nFree Bytes:  " << free_byte << std::endl;
+			if ((noMaxTriangles * 48) > (free_byte)) this->noMaxTriangles = (free_byte - 128000000) / 48; // 128000000 ~ 16MB
 			triangles = new ORUtils::MemoryBlock<Triangle>(noMaxTriangles, memoryType);
 		}
 
