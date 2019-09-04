@@ -34,9 +34,9 @@ namespace ITMLib
 			//debug
 			size_t free_byte, total_byte;
 			cudaMemGetInfo( &free_byte, &total_byte ) ;
-			std::cout << "\nITMMesh\nFree Bytes:           "	<< free_byte << std::endl;
+			/*std::cout << "\nITMMesh\nFree Bytes:           "	<< free_byte << std::endl;
 			std::cout << "Trying to allocate:  "				<< ulong(noMaxTriangles * ulong(48)) << std::endl;
-			std::cout << "Actually allocating:  "				<< free_byte - 128000000 << std::endl;
+			std::cout << "Actually allocating:  "				<< free_byte - 128000000 << std::endl;*/
 			if ((static_cast<ulong>(noMaxTriangles) * 48) > (free_byte)) this->noMaxTriangles = (free_byte - 128000000) / 48; // 128000000 ~ 128MB
 			triangles = new ORUtils::MemoryBlock<Triangle>(noMaxTriangles, memoryType);
 		}

@@ -8,8 +8,30 @@ using namespace ORUtils;
 #include <cmath>
 
 ITMLibSettings::ITMLibSettings(void)
-:	sceneParams(0.02f, 100, 0.002f, 0.2f, 1.8f, false),
+:	sceneParams(0.04f, 100, 0.004f, 0.3f, 2.5f, true),/*
+	width of the band of the TSD function
+	observations per voxel are averaged, after that sliding average
+	voxel size
+	min integration depth
+	max integration depth
+	stopping integration when maxW is reached? */
 	surfelSceneParams(0.5f, 0.6f, static_cast<float>(20 * M_PI / 180), 0.01f, 0.004f, 3.5f, 25.0f, 4, 1.0f, 5.0f, 20, 10000000, true, true)
+	/*
+	deltaRadius_                  The maximum fraction by which a new surfel can have a larger radius than the surfel into which it is being fused if full fusion is to occur.
+    gaussianConfidenceSigma_      The sigma value for the Gaussian used when calculating the sample confidence.
+    maxMergeAngle_                The maximum angle allowed between the normals of a pair of surfels if they are to be merged.
+    maxMergeDist_                 The maximum distance allowed between a pair of surfels if they are to be merged.
+    maxSurfelRadius_              The maximum radius a surfel is allowed to have.
+    minRadiusOverlapFactor_       The minimum factor by which the radii of a pair of surfels must overlap if they are to be merged.
+    stableSurfelConfidence_       The confidence value a surfel must have in order for it to be considered "stable".
+    supersamplingFactor_          The factor by which to supersample (in each axis) the index image used for finding surfel correspondences.
+    trackingSurfelMaxDepth_       The maximum depth a surfel must have in order for it to be used for tracking.
+    trackingSurfelMinConfidence_  The minimum confidence value a surfel must have in order for it to be used for tracking.
+    unstableSurfelPeriod_         The number of time steps a surfel is allowed to be unstable without being updated before being removed.
+    unstableSurfelZOffset_        The z offset to apply to unstable surfels when trying to ensure that they are only rendered if there is no stable alternative.
+    useGaussianSampleConfidence_  Whether or not to use a Gaussian-weighted sample confidence as described in the Keller paper.
+    useSurfelMerging_             Whether or not to use surfel merging.
+    */
 {
 	// skips every other point when using the colour renderer for creating a point cloud
 	skipPoints = true;
@@ -46,11 +68,11 @@ ITMLibSettings::ITMLibSettings(void)
 	libMode = LIBMODE_BASIC;
 	//libMode = LIBMODE_BASIC_SURFELS;
 
-	//// Default ICP tracking
-	//trackerConfig = "type=icp,levels=rrrbb,minstep=1e-3,"
-	//				"outlierC=0.01,outlierF=0.002,"
-	//				"numiterC=10,numiterF=2,failureDec=5.0"; // 5 for normal, 20 for loop closure
-
+	// Default ICP tracking
+	/*trackerConfig = "type=icp,levels=rrrbb,minstep=1e-3,"
+					"outlierC=0.01,outlierF=0.002,"
+					"numiterC=10,numiterF=2,failureDec=5.0"; // 5 for normal, 20 for loop closure
+*/
 	// Depth-only extended tracker:
 	/* trackerConfig = "type=extended,levels=rrbb,useDepth=1,minstep=1e-4,"
 					  "outlierSpaceC=0.1,outlierSpaceF=0.004,"

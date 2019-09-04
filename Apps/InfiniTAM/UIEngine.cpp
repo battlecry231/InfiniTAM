@@ -275,6 +275,7 @@ void UIEngine::glutKeyUpFunction(unsigned char key, int x, int y)
 		printf("saving scene to model ... ");
 		uiEngine->mainEngine->SaveSceneToMesh("mesh.stl");
 		printf("done\n");
+		exit(0);
 	}
 	break;
 	case 'r':
@@ -576,7 +577,7 @@ void UIEngine::Initialise(int & argc, char** argv, ImageSourceEngine *imageSourc
 	//outImageType[3] = ITMMainEngine::InfiniTAM_IMAGE_SCENERAYCAST;
 	//outImageType[4] = ITMMainEngine::InfiniTAM_IMAGE_SCENERAYCAST;
 
-	mainLoopAction = PROCESS_PAUSED;
+	mainLoopAction = PROCESS_VIDEO; //automate PROCESS_PAUSED;
 	mouseState = 0;
 	mouseWarped = false;
 	needsRefresh = false;
@@ -609,7 +610,14 @@ void UIEngine::GetScreenshot(ORUChar4Image *dest) const
 
 void UIEngine::ProcessFrame()
 {
-	if (!imageSource->hasMoreImages()) return;
+	if (!imageSource->hasMoreImages()){
+		printf("saving scene to model ... ");
+		mainEngine->SaveSceneToMesh("fluke.stl");
+		printf("done\n");
+		printf("exiting ...\n");
+		mainLoopAction = UIEngine::EXIT;
+		return;
+	}
 	imageSource->getImages(inputRGBImage, inputRawDepthImage);
 
 	if (imuSource != NULL) {
