@@ -8,7 +8,7 @@ using namespace ORUtils;
 #include <cmath>
 
 ITMLibSettings::ITMLibSettings(void)
-:	sceneParams(0.04f, 100, 0.004f, 0.3f, 2.5f, true),/*
+:	sceneParams(0.02f, 150, 0.0035f, 0.3f, 2.5f, true),/*
 	width of the band of the TSD function
 	observations per voxel are averaged, after that sliding average
 	voxel size

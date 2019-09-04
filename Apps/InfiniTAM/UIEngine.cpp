@@ -25,6 +25,9 @@
 #include "../../ORUtils/FileUtils.h"
 #include "../../InputSource/FFMPEGWriter.h"
 
+#include <iostream>
+#include <chrono>
+
 using namespace InfiniTAM::Engine;
 using namespace InputSource;
 using namespace ITMLib;
@@ -98,6 +101,20 @@ void UIEngine::glutDisplayFunction()
 	glRasterPos2f(0.85f, -0.962f);
 
 	char str[200]; sprintf(str, "%04.2lf", uiEngine->processedTime);
+	// write benchmark data
+	std::ofstream bmFile;
+	size_t free_byte, total_byte;
+	cudaMemGetInfo(&free_byte, &total_byte);
+	auto t1 = std::chrono::system_clock::now();
+	std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::nanoseconds> t2;
+	std::chrono::duration<double> diff = t1 - t2;
+	bmFile.open("benchmark.txt", std::ios_base::app);
+	bmFile << std::to_string(diff.count()) << ", ";
+	bmFile << std::to_string(uiEngine->processedTime) << ", ";
+	bmFile << std::to_string(total_byte - free_byte);
+	bmFile << "\n";
+	bmFile.close();
+	// end
 	safe_glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const char*)str);
 
 
